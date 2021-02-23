@@ -1,0 +1,56 @@
+service: serverless-lambda-chrome
+frameworkVersion: "1.60.5"
+
+provider:
+  name: aws
+  versionFunctions: false
+  runtime: nodejs12.x
+  region: ap-south-1
+  timeout: 60
+  stage: dev
+  profile: default
+  environment:
+    IS_OFFLINE: ${opt:offline}
+  apiGateway:
+    binaryMediaTypes:
+      - "application/pdf"
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+layers:
+  HeadlessChrome:
+    name: HeadlessChrome
+    compatibleRuntimes:
+      - nodejs12.x
+    description: Required for headless chrome
+    package:
+      artifact: layers/chrome_aws_lambda.zip
+custom:
+  webpack:
+    webpackConfig: webpack.config.js
+    includeModules:
+      forceExclude:
+        - chrome-aws-lambda
+    packager: "yarn"
+
+  serverless-offline:
+    location: .webpack/service
+
+functions:
+  generate-the-pdf:
+    provisionedConcurrency: 2
+    memorySize: 1024
+    timeout: 60
+    handler: functions/pdf.generate
+    layers:
+      - { Ref: HeadlessChromeLambdaLayer }
+    events:
+      - http:
+          path: puppeteer/pdf
+          method: get
+          cors: true
+          request:
+            parameters:
+              headers:
+                'X-Amz-Invocation-Type': true
