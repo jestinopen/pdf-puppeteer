@@ -14,6 +14,11 @@ provider:
   apiGateway:
     binaryMediaTypes:
       - "application/pdf"
+  vpc:
+      securityGroupIds:
+        - sg-0100b2e5bedb56d41
+      subnetIds:
+        - subnet-0cf6234972541851a
 plugins:
   - serverless-webpack
   - serverless-offline
