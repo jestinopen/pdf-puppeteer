@@ -9,7 +9,9 @@ const handler = async (event: APIGatewayEvent) => {
     ? null
     : await chromium.executablePath;
   const browser = await chromium.puppeteer.launch({
+    pipe: true,
     headless: true,
+    devtools:false,
     args: chromium.args,
     defaultViewport: chromium.defaultViewport,
     executablePath
@@ -58,6 +60,8 @@ const handler = async (event: APIGatewayEvent) => {
     },
 
   });
+  await page.close();
+  await browser.close();
 
   const stream = await data;
 
