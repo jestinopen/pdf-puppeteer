@@ -15,4 +15,4 @@ To deploy you will need to run
 yarn sls deploy
 ```
 
-In my setup, it will be serving at `https://labs.mianio.com/demo/puppeteer/pdf`. Note that you must send a GET request with `Accept: 'application/pdf'` header for API Gateway to respond properly.
+In my setup, it will be serving at `https://localhost/demo/puppeteer/pdf`. Note that you must send a GET request with `Accept: 'application/pdf'` header for API Gateway to respond properly.
