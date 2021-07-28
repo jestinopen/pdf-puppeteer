@@ -1,4 +1,4 @@
-# serverless-lambda-chrome1
+# serverless-lambda-chrome
 
 This is a demo on running chromium puppeteer on AWS Lambda using Serverless framework.
 To get it running in your local serverless-offline environment
